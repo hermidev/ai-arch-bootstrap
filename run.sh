@@ -73,9 +73,9 @@ echo "  btop: Modern system monitor"
 echo "  htop: Process viewer"
 
 # Step 10: Install Python tools
-echo "[10/26] Installing Python tools (pip, venv)..."
-sudo pacman -S --noconfirm python-pip python-venv
-echo "  pip and venv available for Python package management."
+echo "[10/26] Installing Python tools (pip, virtualenv)..."
+sudo pacman -S --noconfirm python-pip python-virtualenv
+echo "  pip and virtualenv available for Python package management."
 
 # Step 11: Install OpenCL support
 echo "[11/26] Installing OpenCL support..."
