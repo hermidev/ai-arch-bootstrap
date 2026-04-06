@@ -123,7 +123,7 @@ rm -rf yay
 # Step 18: Install FFmpeg and video codecs
 echo "[18/26] Installing FFmpeg and video codecs..."
 sudo pacman -S --noconfirm ffmpeg ffmpeg4.4 \
-  libaom dav1d librav1e svt-av1 \
+  aom rav1e svt-av1 \
   x264 x265 libvpx
 
 # Step 19: Install Vulkan SDK
