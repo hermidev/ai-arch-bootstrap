@@ -4,28 +4,39 @@ A set of scripts to bootstrap an Arch Linux environment after installation to en
 
 ## Overview
 
-This repository contains two bootstrap scripts:
+This repository contains three bootstrap scripts:
 
 | Script | Purpose | Use Case |
 |--------|---------|----------|
+| `bootloader.sh` | GRUB EFI bootloader | Install after Arch base system, before `run.sh` |
 | `run.sh` | Core system setup | Headless servers, dev machines, or base system |
 | `desktop.sh` | Desktop environment | Optional KDE Plasma GUI installation |
 
 ## Quick Start
 
-### Basic Setup (Headless/Dev Machine)
+### Full Installation Order
 
 ```bash
-# Clone the repository
+# 1. Install Arch Linux base system first (official guide)
+# 2. Install GRUB bootloader
+curl -sL http://your-ip:8080/bootloader.sh | bash
+
+# 3. Run the bootstrap script (with hostname argument)
+curl -sL http://your-ip:8080/run.sh | bash
+
+# Or clone the repository
 cd ~/code/repos
 git clone https://github.com/hermidev/ai-arch-bootstrap.git
 cd ai-arch-bootstrap
 
-# Run the bootstrap script (with hostname argument)
+# Run bootloader first (if needed)
+./bootloader.sh
+
+# Then run the bootstrap script
 ./run.sh my-hostname
 
-# Or run without argument to be prompted
-./run.sh
+# Optional: Install desktop environment
+./desktop.sh
 ```
 
 ### Full Desktop Setup
@@ -40,6 +51,33 @@ cd ai-arch-bootstrap
 # Reboot to enter KDE Plasma
 sudo reboot
 ```
+
+## What `bootloader.sh` Installs (6 Steps)
+
+1. **UEFI detection** - Verifies system is booted in UEFI mode
+2. **GRUB + efibootmgr** - Installs bootloader and EFI tools
+3. **EFI mount point** - Creates `/boot` directory if needed
+4. **EFI partition mount** - Auto-detects and mounts EFI partition
+5. **GRUB installation** - Installs GRUB to EFI system partition
+6. **GRUB config** - Generates `/boot/grub/grub.cfg`
+
+### Requirements
+
+- **UEFI boot mode** (not BIOS/legacy)
+- **EFI system partition** (usually `/dev/nvme0n1p1` or `/dev/sda1`)
+- **Root access** (sudo)
+
+### Usage
+
+```bash
+# Run directly
+./bootloader.sh
+
+# Or via curl
+curl -sL http://your-ip:8080/bootloader.sh | bash
+```
+
+---
 
 ## What `run.sh` Installs (26 Steps)
 
