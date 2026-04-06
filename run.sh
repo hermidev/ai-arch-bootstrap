@@ -59,8 +59,18 @@ pyenv install 3.12.12
 pyenv global 3.12.12
 
 # Step 7: Initialize Git LFS
-echo "[7/7] Initializing Git LFS..."
+echo "[7/9] Initializing Git LFS..."
 git lfs install
+
+# Step 8: Create repos directory structure
+echo "[8/9] Creating code/repos directory..."
+mkdir -p "$HOME/code/repos"
+
+# Step 9: Clone AI inference repositories
+echo "[9/9] Cloning llama.cpp and whisper.cpp..."
+cd "$HOME/code/repos"
+git clone https://github.com/ggerganov/llama.cpp.git
+git clone https://github.com/ggerganov/whisper.cpp.git
 
 echo ""
 echo "=== Bootstrap complete! ==="
@@ -70,8 +80,15 @@ echo "  - base-devel (compilation tools)"
 echo "  - git + git-lfs (version control)"
 echo "  - vim (text editor)"
 echo "  - curl + wget (network utilities)"
+echo "  - Vulkan SDK 1.4.341.1"
+echo "  - Volta.sh + Node LTS"
+echo "  - PyEnv + Python 3.12.12"
+echo ""
+echo "Cloned repositories:"
+echo "  - ~/code/repos/llama.cpp"
+echo "  - ~/code/repos/whisper.cpp"
 echo ""
 echo "Next steps:"
 echo "  1. Configure git: git config --global user.name 'yourname'"
 echo "  2. Configure git: git config --global user.email 'your@email.com'"
-echo "  3. Clone your repositories and start developing!"
+echo "  3. Build llama.cpp and whisper.cpp as needed"
