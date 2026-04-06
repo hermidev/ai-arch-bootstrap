@@ -66,18 +66,21 @@ sudo pacman -S --noconfirm linux-firmware
 echo "  Firmware packages installed for WiFi/Bluetooth support."
 
 # Step 9: Install shell utilities
-echo "[9/26] Installing shell utilities (tmux, btop, htop, bash-color-prompt)..."
+echo "[9/26] Installing shell utilities (tmux, btop, htop, bash-git-prompt)..."
 sudo pacman -S --noconfirm tmux btop htop
-# Install bash-color-prompt from AUR for colored prompt
-yay -S --noconfirm bash-color-prompt
+# Install bash-git-prompt from AUR for colored prompt with git status
+yay -S --noconfirm bash-git-prompt
 # Add color prompt to bashrc
 echo '' >> "$HOME/.bashrc"
-echo '# Bash Color Prompt' >> "$HOME/.bashrc"
-echo 'source /usr/share/bash-color-prompt/bash-color-prompt.sh' >> "$HOME/.bashrc"
+echo '# Bash Git Prompt (colored with git status)' >> "$HOME/.bashrc"
+echo 'if [ -f /usr/share/doc/bash-git-prompt/gitprompt.sh ]; then' >> "$HOME/.bashrc"
+echo '  export GIT_PROMPT_ONLY_IN_REPO=1' >> "$HOME/.bashrc"
+echo '  source /usr/share/doc/bash-git-prompt/gitprompt.sh' >> "$HOME/.bashrc"
+echo 'fi' >> "$HOME/.bashrc"
 echo "  tmux: Terminal multiplexer"
 echo "  btop: Modern system monitor"
 echo "  htop: Process viewer"
-echo "  bash-color-prompt: Colored PS1 prompt (like Ubuntu)"
+echo "  bash-git-prompt: Colored PS1 prompt with git status"
 
 # Step 10: Install Python tools
 echo "[10/26] Installing Python tools (pip, virtualenv)..."
