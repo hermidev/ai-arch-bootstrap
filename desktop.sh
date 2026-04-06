@@ -18,10 +18,15 @@ echo "[2/5] Installing KDE Plasma (standard group)..."
 # Standard KDE Plasma group - includes core desktop utilities
 sudo pacman -S --noconfirm plasma-meta kde-applications-meta
 
-echo "[3/5] Installing Firefox..."
+echo "[3/6] Installing Firefox..."
 sudo pacman -S --noconfirm firefox
 
-echo "[4/5] Installing GPU-specific drivers..."
+echo "[4/6] Installing Flatpak..."
+sudo pacman -S --noconfirm flatpak
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+echo "  Flatpak installed with Flathub repository."
+
+echo "[5/6] Installing GPU-specific drivers..."
 
 # Detect GPU type and install appropriate drivers
 lspci_output=$(lspci | grep -i "vga\|3d\|display")
@@ -41,7 +46,7 @@ else
     sudo pacman -S --noconfirm mesa vulkan-tools lib32-mesa
 fi
 
-echo "[5/5] Enabling SDDM display manager..."
+echo "[6/6] Enabling SDDM display manager..."
 sudo systemctl enable sddm
 
 echo ""

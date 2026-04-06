@@ -41,14 +41,47 @@ sudo systemctl enable sshd
 echo "  SSH server enabled. Start with: sudo systemctl start sshd"
 
 # Step 5: Install and enable NetworkManager
-echo "[5/14] Installing and enabling NetworkManager..."
+echo "[5/20] Installing and enabling NetworkManager..."
 sudo pacman -S --noconfirm NetworkManager network-manager-applet
 sudo systemctl enable NetworkManager
 echo "  NetworkManager enabled. Start with: sudo systemctl start NetworkManager"
 echo "  Use 'nmtui' for terminal UI or 'nm-connection-editor' for GUI."
 
-# Step 6: Install yay AUR helper
-echo "[6/14] Installing yay AUR package manager..."
+# Step 6: Install audio stack (PipeWire)
+echo "[6/20] Installing PipeWire audio stack..."
+sudo pacman -S --noconfirm pipewire pipewire-pulse wireplumber
+echo "  PipeWire installed. Reboot or start services manually."
+
+# Step 7: Install firmware packages
+echo "[7/20] Installing linux-firmware..."
+sudo pacman -S --noconfirm linux-firmware
+echo "  Firmware packages installed for WiFi/Bluetooth support."
+
+# Step 8: Install shell utilities
+echo "[8/20] Installing shell utilities (tmux, btop, htop)..."
+sudo pacman -S --noconfirm tmux btop htop
+echo "  tmux: Terminal multiplexer"
+echo "  btop: Modern system monitor"
+echo "  htop: Process viewer"
+
+# Step 9: Install Python tools
+echo "[9/20] Installing Python tools (pip, venv)..."
+sudo pacman -S --noconfirm python-pip python-venv
+echo "  pip and venv available for Python package management."
+
+# Step 10: Install OpenCL support
+echo "[10/20] Installing OpenCL support..."
+sudo pacman -S --noconfirm ocl-icd opencl-icd-loader
+echo "  OpenCL ICD loaders installed for GPU compute."
+
+# Step 11: Install utilities (jq, wireguard)
+echo "[11/20] Installing utilities (jq, wireguard-tools)..."
+sudo pacman -S --noconfirm jq wireguard-tools
+echo "  jq: JSON processor"
+echo "  wireguard-tools: WireGuard VPN utilities"
+
+# Step 12: Install yay AUR helper
+echo "[12/20] Installing yay AUR package manager..."
 cd /tmp
 git clone https://aur.archlinux.org/yay.git
 cd yay
@@ -56,14 +89,14 @@ makepkg -si --noconfirm
 cd ..
 rm -rf yay
 
-# Step 7: Install FFmpeg and video codecs
-echo "[7/14] Installing FFmpeg and video codecs..."
+# Step 13: Install FFmpeg and video codecs
+echo "[13/20] Installing FFmpeg and video codecs..."
 sudo pacman -S --noconfirm ffmpeg ffmpeg4.4 \
   libaom dav1d librav1e svt-av1 \
   x264 x265 vpx
 
-# Step 8: Install Vulkan SDK
-echo "[8/14] Installing Vulkan SDK..."
+# Step 14: Install Vulkan SDK
+echo "[14/20] Installing Vulkan SDK..."
 mkdir -p "$HOME/Vulkan"
 VULKAN_VERSION="1.4.341.1"
 VULKAN_URL="https://sdk.lunarg.com/sdk/download/${VULKAN_VERSION}/linux/vulkansdk-linux-x86_64-${VULKAN_VERSION}.tar.xz"
@@ -79,19 +112,19 @@ echo 'export PATH="$VULKAN_SDK/bin:$PATH"' >> "$HOME/.bashrc"
 echo 'export LD_LIBRARY_PATH="$VULKAN_SDK/lib:$LD_LIBRARY_PATH"' >> "$HOME/.bashrc"
 echo 'export VK_ADD_LAYER_PATH="$VULKAN_SDK/share/vulkan/explicit_layer.d"' >> "$HOME/.bashrc"
 
-# Step 9: Install Vulkan drivers (AMD/Intel/NVIDIA)
-echo "[9/14] Installing Vulkan drivers..."
+# Step 15: Install Vulkan drivers (AMD/Intel/NVIDIA)
+echo "[15/20] Installing Vulkan drivers..."
 sudo pacman -S --noconfirm vulkan-tools mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader 2>/dev/null || \
 sudo pacman -S --noconfirm vulkan-tools mesa lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader
 
-# Step 10: Install Volta.sh (Node.js version manager)
-echo "[10/14] Installing Volta.sh..."
+# Step 16: Install Volta.sh (Node.js version manager)
+echo "[16/20] Installing Volta.sh..."
 curl https://get.volta.sh | bash
 source "$HOME/.bashrc"
 volta install node@lts
 
-# Step 11: Install PyEnv (Python version manager)
-echo "[11/14] Installing PyEnv and Python 3.12.12..."
+# Step 17: Install PyEnv (Python version manager)
+echo "[17/20] Installing PyEnv and Python 3.12.12..."
 # PyEnv dependencies for Arch
 sudo pacman -S --noconfirm zlib bzip2 xz openssl readline tk gcc
 # Install pyenv
@@ -105,16 +138,16 @@ source "$HOME/.bashrc"
 pyenv install 3.12.12
 pyenv global 3.12.12
 
-# Step 12: Initialize Git LFS
-echo "[12/14] Initializing Git LFS..."
+# Step 18: Initialize Git LFS
+echo "[18/20] Initializing Git LFS..."
 git lfs install
 
-# Step 13: Create repos directory structure
-echo "[13/14] Creating code/repos directory..."
+# Step 19: Create repos directory structure
+echo "[19/20] Creating code/repos directory..."
 mkdir -p "$HOME/code/repos"
 
-# Step 14: Clone AI inference repositories
-echo "[14/14] Cloning llama.cpp and whisper.cpp..."
+# Step 20: Clone AI inference repositories
+echo "[20/20] Cloning llama.cpp and whisper.cpp..."
 cd "$HOME/code/repos"
 git clone https://github.com/ggerganov/llama.cpp.git
 git clone https://github.com/ggerganov/whisper.cpp.git
