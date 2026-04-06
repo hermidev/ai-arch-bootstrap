@@ -15,7 +15,7 @@ echo "[1/7] Updating system packages..."
 sudo pacman -Syu --noconfirm
 
 echo "[2/7] Installing NetworkManager for WiFi..."
-sudo pacman -S --noconfirm NetworkManager network-manager-applet
+sudo pacman -S --noconfirm networkmanager network-manager-applet
 sudo systemctl enable NetworkManager
 echo "  NetworkManager enabled for WiFi/network management."
 

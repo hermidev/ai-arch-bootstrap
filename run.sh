@@ -43,7 +43,7 @@ echo "  SSH server enabled and started."
 
 # Step 5: Install and enable NetworkManager
 echo "[5/26] Installing and enabling NetworkManager..."
-sudo pacman -S --noconfirm NetworkManager network-manager-applet
+sudo pacman -S --noconfirm networkmanager network-manager-applet
 sudo systemctl enable NetworkManager
 echo "  NetworkManager enabled. Start with: sudo systemctl start NetworkManager"
 echo "  Use 'nmtui' for terminal UI or 'nm-connection-editor' for GUI."
