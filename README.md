@@ -12,6 +12,49 @@ This repository contains three bootstrap scripts:
 | `run.sh` | Core system setup | Headless servers, dev machines, or base system |
 | `desktop.sh` | Desktop environment | Optional KDE Plasma GUI installation |
 
+## ⚠️ Prerequisites
+
+**Before running these scripts, your Arch Linux installation must be at least:**
+
+1. ✅ **Chrooted into the new root partition** - The scripts assume you're already inside your new Arch system
+2. ✅ **Root password set** - `passwd` command already run for root user
+3. ✅ **User account created** - At least one regular user with home directory and password set
+
+### Why These Requirements?
+
+| Requirement | Reason |
+|-------------|--------|
+| **Chrooted** | Scripts use `sudo`, modify `/etc/`, and install packages to the target system |
+| **Root password** | Required for `sudo` commands throughout the scripts |
+| **User account** | Scripts set up development tools in user home (`~/`, `$HOME`) |
+
+### Basic Arch Installation Checklist
+
+Before running `run.sh` or `desktop.sh`, ensure you've completed:
+
+```bash
+# Inside your chroot environment:
+# 1. Set root password
+passwd
+
+# 2. Create a regular user
+useradd -m -G wheel username
+passwd username
+
+# 3. Enable sudo for wheel group (optional but recommended)
+EDITOR=nano visudo
+# Uncomment: %wheel ALL=(ALL:ALL) ALL
+
+# 4. Install and enable NetworkManager (for network access)
+pacman -S networkmanager
+systemctl enable NetworkManager
+
+# 5. Verify you have internet access
+ping -c 3 archlinux.org
+```
+
+---
+
 ## Quick Start
 
 ### Full Installation Order
