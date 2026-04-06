@@ -21,8 +21,9 @@ echo "  NetworkManager enabled for WiFi/network management."
 
 echo "[3/7] Installing KDE Plasma (standard group)..."
 # Standard KDE Plasma group - includes core desktop utilities
-sudo pacman -S --noconfirm plasma-meta kde-applications-meta bluedevil
+sudo pacman -S --noconfirm plasma-meta kde-applications-meta bluedevil sddm
 echo "  bluedevil installed for Bluetooth UI pairing."
+echo "  sddm installed for display manager."
 
 echo "[4/7] Installing Firefox..."
 sudo pacman -S --noconfirm firefox
