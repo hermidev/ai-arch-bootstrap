@@ -1,6 +1,6 @@
 #!/bin/bash
 # Arch Linux Desktop Environment Bootstrap Script
-# This script optionally installs KDE Plasma desktop environment
+# This script installs KDE Plasma desktop environment with SDDM login manager
 # Supports Nvidia, AMD, and Intel GPUs
 
 set -e
@@ -11,29 +11,17 @@ echo "This will install KDE Plasma desktop environment."
 echo "Recommended for systems with at least 8GB RAM."
 echo ""
 
-# Ask for confirmation
-read -p "Continue with KDE Plasma installation? (y/n): " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Installation cancelled."
-    exit 0
-fi
-
-echo ""
-echo "[1/4] Updating system packages..."
+echo "[1/5] Updating system packages..."
 sudo pacman -Syu --noconfirm
 
-echo ""
-echo "[2/4] Installing KDE Plasma (standard group)..."
+echo "[2/5] Installing KDE Plasma (standard group)..."
 # Standard KDE Plasma group - includes core desktop utilities
 sudo pacman -S --noconfirm plasma-meta kde-applications-meta
 
-echo ""
-echo "[3/4] Installing Firefox..."
+echo "[3/5] Installing Firefox..."
 sudo pacman -S --noconfirm firefox
 
-echo ""
-echo "[4/4] Installing GPU-specific drivers..."
+echo "[4/5] Installing GPU-specific drivers..."
 
 # Detect GPU type and install appropriate drivers
 lspci_output=$(lspci | grep -i "vga\|3d\|display")
@@ -53,6 +41,9 @@ else
     sudo pacman -S --noconfirm mesa vulkan-tools lib32-mesa
 fi
 
+echo "[5/5] Enabling SDDM display manager..."
+sudo systemctl enable sddm
+
 echo ""
 echo "=== Desktop Setup Complete! ==="
 echo ""
@@ -61,12 +52,10 @@ echo "  - KDE Plasma desktop environment"
 echo "  - KDE applications suite"
 echo "  - Firefox web browser"
 echo "  - GPU drivers (Nvidia/AMD/Intel)"
+echo "  - SDDM display manager (enabled)"
 echo ""
 echo "Next steps:"
 echo "  1. Reboot your system: sudo reboot"
 echo "  2. At the login screen, select KDE Plasma session"
 echo "  3. Configure display settings as needed"
-echo ""
-echo "To enable display manager (auto-login GUI):"
-echo "  sudo systemctl enable sddm"
 echo ""
