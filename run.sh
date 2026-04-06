@@ -145,8 +145,14 @@ echo 'export VK_ADD_LAYER_PATH="$VULKAN_SDK/share/vulkan/explicit_layer.d"' >> "
 
 # Step 20: Install Vulkan drivers (AMD/Intel/NVIDIA)
 echo "[20/26] Installing Vulkan drivers..."
-sudo pacman -S --noconfirm vulkan-tools mesa vulkan-radeon vulkan-icd-loader 2>/dev/null || \
-sudo pacman -S --noconfirm vulkan-tools mesa vulkan-icd-loader
+# Enable multilib repository for 32-bit support (needed for lib32 packages)
+echo "  Enabling multilib repository for 32-bit Vulkan support..."
+sed -i 's/^#\[multilib\]/[multilib]/' /etc/pacman.conf
+sed -i '/^#\[multilib\]/a Include = /etc/pacman.d/mirrorlist' /etc/pacman.conf
+sudo pacman -Sy --noconfirm
+# Install Vulkan drivers with 32-bit support
+sudo pacman -S --noconfirm vulkan-tools mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader 2>/dev/null || \
+sudo pacman -S --noconfirm vulkan-tools mesa lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader
 
 # Step 21: Install Volta.sh (Node.js version manager)
 echo "[21/26] Installing Volta.sh..."
