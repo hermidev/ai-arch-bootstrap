@@ -21,7 +21,8 @@ echo "  NetworkManager enabled for WiFi/network management."
 
 echo "[3/7] Installing KDE Plasma (standard group)..."
 # Standard KDE Plasma group - includes core desktop utilities
-sudo pacman -S --noconfirm plasma-meta kde-applications-meta
+sudo pacman -S --noconfirm plasma-meta kde-applications-meta bluedevil
+echo "  bluedevil installed for Bluetooth UI pairing."
 
 echo "[4/7] Installing Firefox..."
 sudo pacman -S --noconfirm firefox
@@ -61,6 +62,7 @@ echo "Installed:"
 echo "  - NetworkManager for WiFi/network management"
 echo "  - KDE Plasma desktop environment"
 echo "  - KDE applications suite"
+echo "  - bluedevil for Bluetooth UI pairing"
 echo "  - Firefox web browser"
 echo "  - Flatpak with Flathub repository"
 echo "  - GPU drivers (Nvidia/AMD/Intel)"
