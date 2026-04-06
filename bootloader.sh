@@ -18,6 +18,7 @@ echo "  UEFI system detected."
 
 # Step 2: Install GRUB and efibootmgr
 echo "[2/6] Installing GRUB and efibootmgr..."
+echo "  Command: sudo pacman -S --noconfirm grub efibootmgr os-prober"
 sudo pacman -S --noconfirm grub efibootmgr os-prober
 echo "  GRUB and EFI tools installed."
 
@@ -25,6 +26,7 @@ echo "  GRUB and EFI tools installed."
 echo "[3/6] Preparing EFI system partition..."
 EFI_MOUNT_POINT="/boot"
 if [ ! -d "$EFI_MOUNT_POINT" ]; then
+    echo "  Command: mkdir -p $EFI_MOUNT_POINT"
     mkdir -p "$EFI_MOUNT_POINT"
     echo "  Created $EFI_MOUNT_POINT directory."
 fi
@@ -33,8 +35,11 @@ fi
 echo "[4/6] Checking EFI partition mount..."
 if ! mountpoint -q "$EFI_MOUNT_POINT"; then
     # Try to find and mount EFI partition
+    echo "  Command: lsblk -o NAME,FSTYPE,MOUNTPOINT | grep -E 'vfat.*boot'"
     EFI_PARTITION=$(lsblk -o NAME,FSTYPE,MOUNTPOINT | grep -E "vfat.*boot" | awk '{print $1}' | head -1)
     if [ -n "$EFI_PARTITION" ]; then
+        echo "  Detected EFI partition: /dev/$EFI_PARTITION"
+        echo "  Command: sudo mount /dev/$EFI_PARTITION $EFI_MOUNT_POINT"
         sudo mount /dev/$EFI_PARTITION "$EFI_MOUNT_POINT"
         echo "  Mounted /dev/$EFI_PARTITION to $EFI_MOUNT_POINT"
     else
@@ -48,11 +53,13 @@ fi
 
 # Step 5: Install GRUB to EFI
 echo "[5/6] Installing GRUB to EFI system partition..."
+echo "  Command: sudo grub-install --target=x86_64-efi --efi-directory=$EFI_MOUNT_POINT --bootloader-id=ArchLinux --recheck"
 sudo grub-install --target=x86_64-efi --efi-directory=$EFI_MOUNT_POINT --bootloader-id=ArchLinux --recheck
 echo "  GRUB installed to EFI partition."
 
 # Step 6: Generate GRUB configuration
 echo "[6/6] Generating GRUB configuration..."
+echo "  Command: sudo grub-mkconfig -o /boot/grub/grub.cfg"
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 echo "  GRUB configuration generated."
 
