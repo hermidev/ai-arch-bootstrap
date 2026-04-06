@@ -137,7 +137,7 @@ curl -sL http://your-ip:8080/bootloader.sh | bash
 8. **Firmware** - `linux-firmware` for WiFi/Bluetooth hardware
 
 ### Development Tools
-9. **Shell utilities** - `tmux`, `btop`, `htop`, `bash-git-prompt` (colored PS1 with git status)
+9. **Shell utilities** - `tmux`, `btop`, `htop`, `bash-git-prompt` (colored PS1 with git status, system-wide)
 10. **Python tools** - `python-pip`, `python-venv`
 11. **OpenCL** - `ocl-icd`, `opencl-icd-loader` for GPU compute
 12. **Utilities** - `jq`, `wireguard-tools` for VPN

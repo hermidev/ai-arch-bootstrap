@@ -70,17 +70,17 @@ echo "[9/26] Installing shell utilities (tmux, btop, htop, bash-git-prompt)..."
 sudo pacman -S --noconfirm tmux btop htop
 # Install bash-git-prompt from AUR for colored prompt with git status
 yay -S --noconfirm bash-git-prompt
-# Add color prompt to bashrc
-echo '' >> "$HOME/.bashrc"
-echo '# Bash Git Prompt (colored with git status)' >> "$HOME/.bashrc"
-echo 'if [ -f /usr/share/doc/bash-git-prompt/gitprompt.sh ]; then' >> "$HOME/.bashrc"
-echo '  export GIT_PROMPT_ONLY_IN_REPO=1' >> "$HOME/.bashrc"
-echo '  source /usr/share/doc/bash-git-prompt/gitprompt.sh' >> "$HOME/.bashrc"
-echo 'fi' >> "$HOME/.bashrc"
+# Add color prompt system-wide for all users (via /etc/bash.bashrc)
+echo '' >> /etc/bash.bashrc
+echo '# Bash Git Prompt (colored with git status) - System Wide' >> /etc/bash.bashrc
+echo 'if [ -f /usr/share/doc/bash-git-prompt/gitprompt.sh ]; then' >> /etc/bash.bashrc
+echo '  export GIT_PROMPT_ONLY_IN_REPO=1' >> /etc/bash.bashrc
+echo '  source /usr/share/doc/bash-git-prompt/gitprompt.sh' >> /etc/bash.bashrc
+echo 'fi' >> /etc/bash.bashrc
 echo "  tmux: Terminal multiplexer"
 echo "  btop: Modern system monitor"
 echo "  htop: Process viewer"
-echo "  bash-git-prompt: Colored PS1 prompt with git status"
+echo "  bash-git-prompt: Colored PS1 prompt with git status (all users)"
 
 # Step 10: Install Python tools
 echo "[10/26] Installing Python tools (pip, virtualenv)..."
