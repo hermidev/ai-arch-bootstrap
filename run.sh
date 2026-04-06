@@ -64,31 +64,54 @@ echo "[8/22] Installing linux-firmware..."
 sudo pacman -S --noconfirm linux-firmware
 echo "  Firmware packages installed for WiFi/Bluetooth support."
 
-# Step 9: Install shell utilities
-echo "[9/22] Installing shell utilities (tmux, btop, htop)..."
+# Step 8: Install shell utilities
+echo "[9/26] Installing shell utilities (tmux, btop, htop)..."
 sudo pacman -S --noconfirm tmux btop htop
 echo "  tmux: Terminal multiplexer"
 echo "  btop: Modern system monitor"
 echo "  htop: Process viewer"
 
-# Step 10: Install Python tools
-echo "[10/22] Installing Python tools (pip, venv)..."
+# Step 9: Install Python tools
+echo "[10/26] Installing Python tools (pip, venv)..."
 sudo pacman -S --noconfirm python-pip python-venv
 echo "  pip and venv available for Python package management."
 
-# Step 11: Install OpenCL support
-echo "[11/22] Installing OpenCL support..."
+# Step 10: Install OpenCL support
+echo "[11/26] Installing OpenCL support..."
 sudo pacman -S --noconfirm ocl-icd opencl-icd-loader
 echo "  OpenCL ICD loaders installed for GPU compute."
 
-# Step 12: Install utilities (jq, wireguard)
-echo "[12/22] Installing utilities (jq, wireguard-tools)..."
+# Step 11: Install utilities (jq, wireguard)
+echo "[12/26] Installing utilities (jq, wireguard-tools)..."
 sudo pacman -S --noconfirm jq wireguard-tools
 echo "  jq: JSON processor"
 echo "  wireguard-tools: WireGuard VPN utilities"
 
-# Step 13: Install yay AUR helper
-echo "[13/22] Installing yay AUR package manager..."
+# Step 12: Install printer support (CUPS)
+echo "[13/26] Installing printer support..."
+sudo pacman -S --noconfirm cups system-config-printer
+sudo systemctl enable cups
+echo "  CUPS printing system installed and enabled."
+echo "  Use 'system-config-printer' GUI to add printers."
+
+# Step 13: Install media codecs (GStreamer)
+echo "[14/26] Installing media codecs (GStreamer)..."
+sudo pacman -S --noconfirm gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly
+echo "  GStreamer codecs installed for video/audio playback."
+echo "  Enables Zoom/Teams screen sharing and media playback."
+
+# Step 14: Install auto-mount support (UDisks2)
+echo "[15/26] Installing auto-mount support (UDisks2)..."
+sudo pacman -S --noconfirm udisks2
+echo "  UDisks2 installed for auto-mounting USB drives and external disks."
+
+# Step 15: Install screenshot tool (Spectacle)
+echo "[16/26] Installing screenshot tool (Spectacle)..."
+sudo pacman -S --noconfirm spectacle
+echo "  Spectacle installed for screenshots and screen recording."
+
+# Step 17: Install yay AUR helper
+echo "[17/26] Installing yay AUR package manager..."
 cd /tmp
 git clone https://aur.archlinux.org/yay.git
 cd yay
@@ -96,14 +119,14 @@ makepkg -si --noconfirm
 cd ..
 rm -rf yay
 
-# Step 14: Install FFmpeg and video codecs
-echo "[14/22] Installing FFmpeg and video codecs..."
+# Step 18: Install FFmpeg and video codecs
+echo "[18/26] Installing FFmpeg and video codecs..."
 sudo pacman -S --noconfirm ffmpeg ffmpeg4.4 \
   libaom dav1d librav1e svt-av1 \
   x264 x265 vpx
 
-# Step 15: Install Vulkan SDK
-echo "[15/22] Installing Vulkan SDK..."
+# Step 19: Install Vulkan SDK
+echo "[19/26] Installing Vulkan SDK..."
 mkdir -p "$HOME/Vulkan"
 VULKAN_VERSION="1.4.341.1"
 VULKAN_URL="https://sdk.lunarg.com/sdk/download/${VULKAN_VERSION}/linux/vulkansdk-linux-x86_64-${VULKAN_VERSION}.tar.xz"
@@ -119,19 +142,19 @@ echo 'export PATH="$VULKAN_SDK/bin:$PATH"' >> "$HOME/.bashrc"
 echo 'export LD_LIBRARY_PATH="$VULKAN_SDK/lib:$LD_LIBRARY_PATH"' >> "$HOME/.bashrc"
 echo 'export VK_ADD_LAYER_PATH="$VULKAN_SDK/share/vulkan/explicit_layer.d"' >> "$HOME/.bashrc"
 
-# Step 16: Install Vulkan drivers (AMD/Intel/NVIDIA)
-echo "[16/22] Installing Vulkan drivers..."
+# Step 20: Install Vulkan drivers (AMD/Intel/NVIDIA)
+echo "[20/26] Installing Vulkan drivers..."
 sudo pacman -S --noconfirm vulkan-tools mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader 2>/dev/null || \
 sudo pacman -S --noconfirm vulkan-tools mesa lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader
 
-# Step 17: Install Volta.sh (Node.js version manager)
-echo "[17/22] Installing Volta.sh..."
+# Step 21: Install Volta.sh (Node.js version manager)
+echo "[21/26] Installing Volta.sh..."
 curl https://get.volta.sh | bash
 source "$HOME/.bashrc"
 volta install node@lts
 
-# Step 18: Install PyEnv (Python version manager)
-echo "[18/22] Installing PyEnv and Python 3.12.12..."
+# Step 22: Install PyEnv (Python version manager)
+echo "[22/26] Installing PyEnv and Python 3.12.12..."
 # PyEnv dependencies for Arch
 sudo pacman -S --noconfirm zlib bzip2 xz openssl readline tk gcc
 # Install pyenv
@@ -145,22 +168,22 @@ source "$HOME/.bashrc"
 pyenv install 3.12.12
 pyenv global 3.12.12
 
-# Step 19: Initialize Git LFS
-echo "[19/22] Initializing Git LFS..."
+# Step 23: Initialize Git LFS
+echo "[23/26] Initializing Git LFS..."
 git lfs install
 
-# Step 20: Create repos directory structure
-echo "[20/22] Creating code/repos directory..."
+# Step 24: Create repos directory structure
+echo "[24/26] Creating code/repos directory..."
 mkdir -p "$HOME/code/repos"
 
-# Step 21: Clone AI inference repositories
-echo "[21/22] Cloning llama.cpp and whisper.cpp..."
+# Step 25: Clone AI inference repositories
+echo "[25/26] Cloning llama.cpp and whisper.cpp..."
 cd "$HOME/code/repos"
 git clone https://github.com/ggerganov/llama.cpp.git
 git clone https://github.com/ggerganov/whisper.cpp.git
 
-# Step 22: Initialize Git configuration
-echo "[22/22] Setting up Git..."
+# Step 26: Initialize Git configuration
+echo "[26/26] Setting up Git..."
 git config --global init.defaultBranch main
 echo "  Git initialized with 'main' as default branch."
 
