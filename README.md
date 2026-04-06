@@ -194,7 +194,7 @@ flatpak install flathub us.zoom.Zoom
 ### SSH Not Starting
 ```bash
 sudo systemctl start sshd
-sudo systemctl enable sshd
+sudo systemctl status sshd
 ```
 
 ### Audio Not Working
@@ -222,6 +222,64 @@ sudo systemctl status NetworkManager
 
 # Use terminal UI
 sudo nmtui
+```
+
+### Package Not Found Errors
+If you encounter "target not found" errors, the package names may have changed:
+
+| Wrong | Correct |
+|-------|---------|
+| `NetworkManager` | `networkmanager` |
+| `python-venv` | `python-virtualenv` |
+| `vpx` | `libvpx` |
+| `libaom` | `aom` |
+| `librav1e` | `rav1e` |
+| `lib32-mesa` | Requires `[multilib]` repo enabled |
+
+### multilib Repository Not Enabled
+For 32-bit packages (lib32-*), ensure multilib is enabled:
+
+```bash
+# Edit /etc/pacman.conf
+sudo nano /etc/pacman.conf
+
+# Find and uncomment:
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+
+# Update
+sudo pacman -Sy
+```
+
+### Volta/PyEnv Not Found
+If `volta` or `pyenv` commands not found after installation:
+
+```bash
+# For Volta
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+# For PyEnv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Add to ~/.bashrc for persistence
+echo 'export VOLTA_HOME="$HOME/.volta"' >> ~/.bashrc
+echo 'export PATH="$VOLTA_HOME/bin:$PATH"' >> ~/.bashrc
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+```
+
+### Desktop Not Starting After Reboot
+```bash
+# Check SDDM service
+sudo systemctl status sddm
+
+# Start if not running
+sudo systemctl start sddm
+sudo systemctl enable sddm
 ```
 
 ## License
