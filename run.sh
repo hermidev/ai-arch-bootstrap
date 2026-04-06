@@ -35,77 +35,78 @@ echo "[3/13] Installing base development packages..."
 sudo pacman -S --noconfirm base-devel git git-lfs vim curl wget tk
 
 # Step 4: Install and enable OpenSSH server
-echo "[4/14] Installing and enabling OpenSSH server..."
+echo "[4/26] Installing and enabling OpenSSH server..."
 sudo pacman -S --noconfirm openssh
 sudo systemctl enable sshd
-echo "  SSH server enabled. Start with: sudo systemctl start sshd"
+sudo systemctl start sshd
+echo "  SSH server enabled and started."
 
 # Step 5: Install and enable NetworkManager
-echo "[5/20] Installing and enabling NetworkManager..."
+echo "[5/26] Installing and enabling NetworkManager..."
 sudo pacman -S --noconfirm NetworkManager network-manager-applet
 sudo systemctl enable NetworkManager
 echo "  NetworkManager enabled. Start with: sudo systemctl start NetworkManager"
 echo "  Use 'nmtui' for terminal UI or 'nm-connection-editor' for GUI."
 
 # Step 6: Install audio stack (PipeWire)
-echo "[6/22] Installing PipeWire audio stack..."
+echo "[6/26] Installing PipeWire audio stack..."
 sudo pacman -S --noconfirm pipewire pipewire-pulse wireplumber pavucontrol
 echo "  PipeWire installed with pavucontrol for GUI audio control."
 echo "  Use 'pavucontrol' to manage input/output devices and volumes."
 
 # Step 7: Install Bluetooth support (for headsets)
-echo "[7/22] Installing Bluetooth stack..."
+echo "[7/26] Installing Bluetooth stack..."
 sudo pacman -S --noconfirm bluez bluez-utils
 sudo systemctl enable bluetooth
 echo "  Bluetooth installed. Use 'bluetoothctl' to pair devices."
 
 # Step 8: Install firmware packages
-echo "[8/22] Installing linux-firmware..."
+echo "[8/26] Installing linux-firmware..."
 sudo pacman -S --noconfirm linux-firmware
 echo "  Firmware packages installed for WiFi/Bluetooth support."
 
-# Step 8: Install shell utilities
+# Step 9: Install shell utilities
 echo "[9/26] Installing shell utilities (tmux, btop, htop)..."
 sudo pacman -S --noconfirm tmux btop htop
 echo "  tmux: Terminal multiplexer"
 echo "  btop: Modern system monitor"
 echo "  htop: Process viewer"
 
-# Step 9: Install Python tools
+# Step 10: Install Python tools
 echo "[10/26] Installing Python tools (pip, venv)..."
 sudo pacman -S --noconfirm python-pip python-venv
 echo "  pip and venv available for Python package management."
 
-# Step 10: Install OpenCL support
+# Step 11: Install OpenCL support
 echo "[11/26] Installing OpenCL support..."
 sudo pacman -S --noconfirm ocl-icd opencl-icd-loader
 echo "  OpenCL ICD loaders installed for GPU compute."
 
-# Step 11: Install utilities (jq, wireguard)
+# Step 12: Install utilities (jq, wireguard)
 echo "[12/26] Installing utilities (jq, wireguard-tools)..."
 sudo pacman -S --noconfirm jq wireguard-tools
 echo "  jq: JSON processor"
 echo "  wireguard-tools: WireGuard VPN utilities"
 
-# Step 12: Install printer support (CUPS)
+# Step 13: Install printer support (CUPS)
 echo "[13/26] Installing printer support..."
 sudo pacman -S --noconfirm cups system-config-printer
 sudo systemctl enable cups
 echo "  CUPS printing system installed and enabled."
 echo "  Use 'system-config-printer' GUI to add printers."
 
-# Step 13: Install media codecs (GStreamer)
+# Step 14: Install media codecs (GStreamer)
 echo "[14/26] Installing media codecs (GStreamer)..."
 sudo pacman -S --noconfirm gstreamer gst-plugins-good gst-plugins-bad gst-plugins-ugly
 echo "  GStreamer codecs installed for video/audio playback."
 echo "  Enables Zoom/Teams screen sharing and media playback."
 
-# Step 14: Install auto-mount support (UDisks2)
+# Step 15: Install auto-mount support (UDisks2)
 echo "[15/26] Installing auto-mount support (UDisks2)..."
 sudo pacman -S --noconfirm udisks2
 echo "  UDisks2 installed for auto-mounting USB drives and external disks."
 
-# Step 15: Install screenshot tool (Spectacle)
+# Step 16: Install screenshot tool (Spectacle)
 echo "[16/26] Installing screenshot tool (Spectacle)..."
 sudo pacman -S --noconfirm spectacle
 echo "  Spectacle installed for screenshots and screen recording."
