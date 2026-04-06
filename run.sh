@@ -157,7 +157,9 @@ sudo pacman -S --noconfirm vulkan-tools mesa lib32-mesa vulkan-icd-loader lib32-
 # Step 21: Install Volta.sh (Node.js version manager)
 echo "[21/26] Installing Volta.sh..."
 curl https://get.volta.sh | bash
-source "$HOME/.bashrc"
+# Source Volta environment
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
 volta install node@lts
 
 # Step 22: Install PyEnv (Python version manager)
@@ -166,11 +168,14 @@ echo "[22/26] Installing PyEnv and Python 3.12.12..."
 sudo pacman -S --noconfirm zlib bzip2 xz openssl readline tk gcc
 # Install pyenv
 curl https://pyenv.run | bash
-# Add pyenv to shell
+# Add pyenv to shell (for future sessions)
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> "$HOME/.bashrc"
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> "$HOME/.bashrc"
 echo 'eval "$(pyenv init -)"' >> "$HOME/.bashrc"
-source "$HOME/.bashrc"
+# Set up PATH for current session
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 # Install Python 3.12.12
 pyenv install 3.12.12
 pyenv global 3.12.12
