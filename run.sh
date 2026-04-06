@@ -66,11 +66,18 @@ sudo pacman -S --noconfirm linux-firmware
 echo "  Firmware packages installed for WiFi/Bluetooth support."
 
 # Step 9: Install shell utilities
-echo "[9/26] Installing shell utilities (tmux, btop, htop)..."
+echo "[9/26] Installing shell utilities (tmux, btop, htop, bash-color-prompt)..."
 sudo pacman -S --noconfirm tmux btop htop
+# Install bash-color-prompt from AUR for colored prompt
+yay -S --noconfirm bash-color-prompt
+# Add color prompt to bashrc
+echo '' >> "$HOME/.bashrc"
+echo '# Bash Color Prompt' >> "$HOME/.bashrc"
+echo 'source /usr/share/bash-color-prompt/bash-color-prompt.sh' >> "$HOME/.bashrc"
 echo "  tmux: Terminal multiplexer"
 echo "  btop: Modern system monitor"
 echo "  htop: Process viewer"
+echo "  bash-color-prompt: Colored PS1 prompt (like Ubuntu)"
 
 # Step 10: Install Python tools
 echo "[10/26] Installing Python tools (pip, virtualenv)..."
