@@ -97,12 +97,10 @@ git config --global user.name "Your Name"
 git config --global user.email "your@email.com"
 ```
 
-### SSH Server (If Needed)
+### SSH Server (Auto-Started)
 ```bash
-# Start SSH service (if not booted with systemd)
-sudo systemctl start sshd
-
-# Check status
+# SSH server is automatically started during bootstrap
+# Check status if needed
 systemctl status sshd
 ```
 
