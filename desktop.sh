@@ -11,22 +11,27 @@ echo "This will install KDE Plasma desktop environment."
 echo "Recommended for systems with at least 8GB RAM."
 echo ""
 
-echo "[1/5] Updating system packages..."
+echo "[1/7] Updating system packages..."
 sudo pacman -Syu --noconfirm
 
-echo "[2/5] Installing KDE Plasma (standard group)..."
+echo "[2/7] Installing NetworkManager for WiFi..."
+sudo pacman -S --noconfirm NetworkManager network-manager-applet
+sudo systemctl enable NetworkManager
+echo "  NetworkManager enabled for WiFi/network management."
+
+echo "[3/7] Installing KDE Plasma (standard group)..."
 # Standard KDE Plasma group - includes core desktop utilities
 sudo pacman -S --noconfirm plasma-meta kde-applications-meta
 
-echo "[3/6] Installing Firefox..."
+echo "[4/7] Installing Firefox..."
 sudo pacman -S --noconfirm firefox
 
-echo "[4/6] Installing Flatpak..."
+echo "[5/7] Installing Flatpak..."
 sudo pacman -S --noconfirm flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 echo "  Flatpak installed with Flathub repository."
 
-echo "[5/6] Installing GPU-specific drivers..."
+echo "[6/7] Installing GPU-specific drivers..."
 
 # Detect GPU type and install appropriate drivers
 lspci_output=$(lspci | grep -i "vga\|3d\|display")
@@ -46,16 +51,18 @@ else
     sudo pacman -S --noconfirm mesa vulkan-tools lib32-mesa
 fi
 
-echo "[6/6] Enabling SDDM display manager..."
+echo "[7/7] Enabling SDDM display manager..."
 sudo systemctl enable sddm
 
 echo ""
 echo "=== Desktop Setup Complete! ==="
 echo ""
 echo "Installed:"
+echo "  - NetworkManager for WiFi/network management"
 echo "  - KDE Plasma desktop environment"
 echo "  - KDE applications suite"
 echo "  - Firefox web browser"
+echo "  - Flatpak with Flathub repository"
 echo "  - GPU drivers (Nvidia/AMD/Intel)"
 echo "  - SDDM display manager (enabled)"
 echo ""
