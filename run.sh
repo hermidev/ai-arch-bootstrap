@@ -71,8 +71,11 @@ sudo pacman -S --noconfirm tmux btop htop
 # Install bash-git-prompt from AUR for colored prompt with git status
 yay -S --noconfirm bash-git-prompt
 # Add color prompt system-wide for all users (via /etc/bash.bashrc)
+# Note: bash-git-prompt sets its own PS1, so we clear any existing PS1 first
 echo '' >> /etc/bash.bashrc
 echo '# Bash Git Prompt (colored with git status) - System Wide' >> /etc/bash.bashrc
+echo '# Clear any existing PS1 to avoid conflicts' >> /etc/bash.bashrc
+echo 'unset PS1' >> /etc/bash.bashrc
 echo 'if [ -f /usr/share/doc/bash-git-prompt/gitprompt.sh ]; then' >> /etc/bash.bashrc
 echo '  export GIT_PROMPT_ONLY_IN_REPO=1' >> /etc/bash.bashrc
 echo '  source /usr/share/doc/bash-git-prompt/gitprompt.sh' >> /etc/bash.bashrc
