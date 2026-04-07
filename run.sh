@@ -71,15 +71,36 @@ sudo pacman -S --noconfirm tmux btop htop
 # Install bash-git-prompt from AUR for colored prompt with git status
 yay -S --noconfirm bash-git-prompt
 # Add color prompt system-wide for all users (via /etc/bash.bashrc)
-# Note: bash-git-prompt sets its own PS1, so we clear any existing PS1 first
+# IMPORTANT: bash-git-prompt must be sourced LAST to avoid PS1 conflicts
+# First, remove any existing PS1 settings from /etc/bash.bashrc
+sed -i '/^PS1=/d' /etc/bash.bashrc
+# Now add bash-git-prompt at the end
 echo '' >> /etc/bash.bashrc
 echo '# Bash Git Prompt (colored with git status) - System Wide' >> /etc/bash.bashrc
-echo '# Clear any existing PS1 to avoid conflicts' >> /etc/bash.bashrc
-echo 'unset PS1' >> /etc/bash.bashrc
 echo 'if [ -f /usr/share/doc/bash-git-prompt/gitprompt.sh ]; then' >> /etc/bash.bashrc
 echo '  export GIT_PROMPT_ONLY_IN_REPO=1' >> /etc/bash.bashrc
 echo '  source /usr/share/doc/bash-git-prompt/gitprompt.sh' >> /etc/bash.bashrc
 echo 'fi' >> /etc/bash.bashrc
+# Also update existing user .bashrc files to remove PS1 conflicts
+for user_home in /home/*; do
+  if [ -d "$user_home" ]; then
+    username=$(basename "$user_home")
+    bashrc="$user_home/.bashrc"
+    if [ -f "$bashrc" ]; then
+      # Remove any PS1= lines from user's .bashrc
+      sudo sed -i '/^PS1=/d' "$bashrc"
+      # Add bash-git-prompt at the end
+      echo '' | sudo tee -a "$bashrc" > /dev/null
+      echo '# Bash Git Prompt (colored with git status)' | sudo tee -a "$bashrc" > /dev/null
+      echo 'if [ -f /usr/share/doc/bash-git-prompt/gitprompt.sh ]; then' | sudo tee -a "$bashrc" > /dev/null
+      echo '  export GIT_PROMPT_ONLY_IN_REPO=1' | sudo tee -a "$bashrc" > /dev/null
+      echo '  source /usr/share/doc/bash-git-prompt/gitprompt.sh' | sudo tee -a "$bashrc" > /dev/null
+      echo 'fi' | sudo tee -a "$bashrc" > /dev/null
+      # Fix ownership
+      sudo chown "$username:$username" "$bashrc"
+    fi
+  fi
+done
 echo "  tmux: Terminal multiplexer"
 echo "  btop: Modern system monitor"
 echo "  htop: Process viewer"
